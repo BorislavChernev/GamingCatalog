@@ -1,1 +1,79 @@
-<router-outlet></router-outlet>
+<div class="h-screen flex flex-row w-full space-x-6">
+  <aside
+    class="w-2/12 z-10 h-full max-h-full flex flex-col h-screen overflow-y-auto overflow-x-hidden rounded-lg shadow">
+    <nav class="flex flex-col justify-between flex-1 mx-4 mt-4 z-10">
+      <a class="flex items-center px-4 py-2 text-gray-700 bg-gray-100 rounded-md dark:bg-gray-800 dark:text-gray-200"
+        routerLink="test">
+        <i class="fa-solid fa-house"></i>
+        <span class="hidden sm:inline-block mx-4 font-medium">Home</span>
+      </a>
+
+      <a class="flex items-center px-4 py-2 mt-4 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+        routerLink="Game/All">
+        <i class="fa-solid fa-gamepad"></i>
+        <span class="hidden sm:inline-block mx-4 font-medium">Games</span>
+      </a>
+
+      <a class="flex items-center px-4 py-2 mt-4 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+        routerLink="Discussion/All">
+        <i class="fa-solid fa-comments"></i>
+
+        <span class="mx-4 font-medium">Discussions</span>
+      </a>
+
+      <a class="flex items-center px-4 py-2 mt-4 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+        routerLink="Guide/All">
+        <i class="fa-solid fa-circle-question"></i>
+
+        <span class="mx-4 font-medium">Guides</span>
+      </a>
+
+      <hr class="my-6 border-gray-200 dark:border-gray-600" />
+
+      <a class="flex items-center px-4 py-2 mt-4 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+        routerLink="Game/Wished">
+        <i class="fa-solid fa-star"></i>
+
+        <span class="mx-4 font-medium">Wishlist</span>
+      </a>
+
+      <a class="flex items-center px-4 py-2 mt-4 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+        routerLink="Game/Liked">
+        <i class="fa-solid fa-heart"></i>
+
+        <span class="mx-4 font-medium">Liked Games</span>
+      </a>
+
+      <a class="flex items-center px-4 py-2 mt-4 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+        routerLink="Game/Rated">
+        <i class="fa-solid fa-face-smile"></i>
+
+        <span class="mx-4 font-medium">Rated Games</span>
+      </a>
+
+      <a class="flex items-center px-4 py-2 mt-4 text-gray-600 transition-colors duration-300 transform rounded-md dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 hover:text-gray-700"
+        routerLink="/">
+        <i class="fa-solid fa-gear"></i>
+
+        <span class="mx-4 font-medium">Settings</span>
+      </a>
+
+      <!-- <partial name="_LoginPartial" /> -->
+
+    </nav>
+  </aside>
+
+  <div class="w-10/12 h-full max-h-full flex flex-col overflox-hidden rounded-lg shadow">
+    <app-titlebar />
+
+    <main class="h-full max-h-full flex flex-col w-full overflox-hidden">
+      <div class="h-5/6">
+        <!-- @RenderBody() -->
+        <router-outlet></router-outlet>
+      </div>
+      <div class="h-1/6 flex flex-col-reverse">
+        <!-- <partial name="_FooterPartial" /> -->
+      </div>
+    </main>
+  </div>
+</div>
