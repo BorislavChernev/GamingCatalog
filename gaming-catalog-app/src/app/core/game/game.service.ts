@@ -5,6 +5,7 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Game } from 'src/app/interfaces/game.interface';
+import { VALIDATION_MESSAGES } from 'src/app/shared/constants/validation.errors';
 
 @Injectable({
   providedIn: 'root',
@@ -18,25 +19,28 @@ export class GameService {
       .valueChanges()
       .pipe(
         catchError((error) => {
-          console.error('Error fetching all games:', error);
+          console.error(VALIDATION_MESSAGES.GAME.GET_ALL_ERROR, error);
           return throwError(
-            () =>
-              new Error(
-                'Something went wrong while fetching all games. Please try again later.'
-              )
+            () => new Error(VALIDATION_MESSAGES.GAME.GET_ALL_ERROR)
           );
         })
       );
   }
 
-  getGameDetails(gameId: string): Observable<Game | undefined> {
+  getGameDetailsById(gameId: string): Observable<Game | undefined> {
     return this.firestore
       .collection<Game>('games')
       .doc<Game>(gameId)
       .valueChanges()
       .pipe(
         catchError((error) => {
-          console.error(`Error getching game details for ID ${gameId}`, error);
+          console.error(
+            VALIDATION_MESSAGES.GAME.GET_DETAILS_BY_ID_ERROR.replace(
+              '%s',
+              gameId
+            ),
+            error
+          );
           return throwError(
             () =>
               new Error(
@@ -52,8 +56,8 @@ export class GameService {
       .collection<Game>('games')
       .add(game)
       .catch((error) => {
-        console.error('Error creating new game:', error);
-        throw new Error('Failed to create new game. Please try again later');
+        console.error(VALIDATION_MESSAGES.GAME.CREATE_NEW_ERROR, error);
+        throw new Error(VALIDATION_MESSAGES.GAME.CREATE_NEW_ERROR);
       });
   }
 
@@ -63,8 +67,11 @@ export class GameService {
       .doc(gameId)
       .update(updatedGameData)
       .catch((error) => {
-        console.error(`Error editing game with ID ${gameId}`);
-        throw new Error('Failed to edit game. Please try again later.');
+        console.error(
+          VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', gameId),
+          error
+        );
+        throw new Error(VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR);
       });
   }
 }
