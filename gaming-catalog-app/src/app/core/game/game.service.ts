@@ -44,7 +44,10 @@ export class GameService {
           return throwError(
             () =>
               new Error(
-                'Something went wrong while fetching game details. Please try again later.'
+                VALIDATION_MESSAGES.GAME.GET_DETAILS_BY_ID_ERROR.replace(
+                  '%s',
+                  gameId
+                )
               )
           );
         })
@@ -71,7 +74,9 @@ export class GameService {
           VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', gameId),
           error
         );
-        throw new Error(VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR);
+        throw new Error(
+          VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', gameId)
+        );
       });
   }
 }
