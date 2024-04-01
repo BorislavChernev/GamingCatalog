@@ -24,4 +24,4 @@ jobs:
 
     - name: Build Angular app
       working-directory: ./gaming-catalog-app
-      run: npm start
+      run: npm build
