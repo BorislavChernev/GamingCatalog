@@ -19,7 +19,9 @@ jobs:
         node-version: '18.x.x'
 
     - name: Install dependencies
+      working-directory: ./gaming-catalog-app
       run: npm install
 
     - name: Build Angular app
+      working-directory: ./gaming-catalog-app
       run: npm start
