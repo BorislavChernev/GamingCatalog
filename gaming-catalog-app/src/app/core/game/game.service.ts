@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import {
-  AngularFirestore,
-  DocumentReference,
-} from '@angular/fire/compat/firestore';
-import { Observable, catchError, throwError } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Game } from 'src/app/interfaces/game.interface';
 import { VALIDATION_MESSAGES } from 'src/app/shared/constants/validation.errors';
 
@@ -11,72 +9,72 @@ import { VALIDATION_MESSAGES } from 'src/app/shared/constants/validation.errors'
   providedIn: 'root',
 })
 export class GameService {
-  constructor(private firestore: AngularFirestore) {}
+  private readonly baseUrl = 'http://127.0.0.1:3000';
+
+  constructor(private http: HttpClient) {}
 
   getAllGames(): Observable<Game[]> {
-    return this.firestore
-      .collection<Game>('games')
-      .valueChanges()
-      .pipe(
-        catchError((error) => {
-          console.error(VALIDATION_MESSAGES.GAME.GET_ALL_ERROR, error);
-          return throwError(
-            () => new Error(VALIDATION_MESSAGES.GAME.GET_ALL_ERROR)
-          );
-        })
-      );
+    return this.http.get<Game[]>(`${this.baseUrl}/games`).pipe(
+      catchError((error) => {
+        console.error(VALIDATION_MESSAGES.GAME.GET_ALL_ERROR, error);
+        return throwError(
+          () => new Error(VALIDATION_MESSAGES.GAME.GET_ALL_ERROR)
+        );
+      })
+    );
   }
 
-  getGameDetailsById(gameId: string): Observable<Game | undefined> {
-    return this.firestore
-      .collection<Game>('games')
-      .doc<Game>(gameId)
-      .valueChanges()
+  getGameDetailsById(gameId: string): Observable<Game> {
+    return this.http.get<Game>(`${this.baseUrl}/games/${gameId}`).pipe(
+      catchError((error) => {
+        console.error(
+          VALIDATION_MESSAGES.GAME.GET_DETAILS_BY_ID_ERROR.replace(
+            '%s',
+            gameId
+          ),
+          error
+        );
+        return throwError(
+          () =>
+            new Error(
+              VALIDATION_MESSAGES.GAME.GET_DETAILS_BY_ID_ERROR.replace(
+                '%s',
+                gameId
+              )
+            )
+        );
+      })
+    );
+  }
+
+  createNewGame(game: Game): Observable<any> {
+    return this.http.post<Game>(`${this.baseUrl}/games`, game).pipe(
+      catchError((error) => {
+        console.error('Error adding game:', error);
+        return throwError(() => error);
+      })
+    );
+  }
+
+  editGameById(
+    gameId: string,
+    updatedGameData: Partial<Game>
+  ): Observable<void> {
+    return this.http
+      .put<void>(`${this.baseUrl}/games/${gameId}`, updatedGameData)
       .pipe(
         catchError((error) => {
           console.error(
-            VALIDATION_MESSAGES.GAME.GET_DETAILS_BY_ID_ERROR.replace(
-              '%s',
-              gameId
-            ),
+            VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', gameId),
             error
           );
           return throwError(
             () =>
               new Error(
-                VALIDATION_MESSAGES.GAME.GET_DETAILS_BY_ID_ERROR.replace(
-                  '%s',
-                  gameId
-                )
+                VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', gameId)
               )
           );
         })
       );
-  }
-
-  createNewGame(game: Game): Promise<DocumentReference<Game>> {
-    return this.firestore
-      .collection<Game>('games')
-      .add(game)
-      .catch((error) => {
-        console.error(VALIDATION_MESSAGES.GAME.CREATE_NEW_ERROR, error);
-        throw new Error(VALIDATION_MESSAGES.GAME.CREATE_NEW_ERROR);
-      });
-  }
-
-  editGameById(gameId: string, updatedGameData: Partial<Game>): Promise<void> {
-    return this.firestore
-      .collection<Game>('games')
-      .doc(gameId)
-      .update(updatedGameData)
-      .catch((error) => {
-        console.error(
-          VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', gameId),
-          error
-        );
-        throw new Error(
-          VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', gameId)
-        );
-      });
   }
 }

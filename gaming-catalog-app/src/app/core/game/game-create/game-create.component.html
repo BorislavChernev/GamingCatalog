@@ -1,0 +1,88 @@
+<div class="bg-gray-100 mt--30">
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="w-full max-w-xl p-4 bg-white rounded-lg shadow-lg">
+            <h1 class="text-xl font-semibold mb-3 text-center">Create a Game</h1>
+            <form #gameCreateForm="ngForm" (ngSubmit)="submitForm()" class="grid grid-cols-2 gap-3">
+                <div class="col-span-2">
+                    <label for="name" class="font-semibold">Name</label>
+                    <input type="text" name="name" class="w-full p-2 border rounded" [(ngModel)]="name"
+                        #nameModel="ngModel" required>
+                    <span *ngIf="validateName() && nameModel.dirty" class="text-red-500">{{
+                        validateName() }}</span>
+                </div>
+                <div class="col-span-2">
+                    <label for="description" class="font-semibold">Description</label>
+                    <textarea name="description" class="w-full p-2 border rounded" [(ngModel)]="description"
+                        #descriptionModel="ngModel" required></textarea>
+                    <span *ngIf="validateDescription() && descriptionModel.dirty" class="text-red-500">Description
+                        length should be between
+                        30
+                        and 1000 characters</span>
+                </div>
+                <div>
+                    <label for="version" class="font-semibold">Version:</label>
+                    <input type="text" name="version" class="w-full p-2 border rounded" [(ngModel)]="version" required>
+                </div>
+                <div>
+                    <label for="releaseDate" class="font-semibold">Release Date:</label>
+                    <input type="date" name="releaseDate" class="w-full p-2 border rounded" [(ngModel)]="releaseDate"
+                        required>
+                </div>
+                <div>
+                    <label for="ageRestriction" class="font-semibold">Age Restriction:</label>
+                    <select name="ageRestriction" class="w-full p-2 border rounded" [(ngModel)]="ageRestriction"
+                        required>
+                        <option value="PEGI 3">PEGI 3</option>
+                        <option value="PEGI 7">PEGI 7</option>
+                        <option value="PEGI 12">PEGI 12</option>
+                        <option value="PEGI 16">PEGI 16</option>
+                        <option value="PEGI 18">PEGI 18</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="status" class="font-semibold">Release Status:</label>
+                    <select name="status" class="w-full p-2 border rounded" [(ngModel)]="status" required>
+                        <option value="Unreleased">Unreleased</option>
+                        <option value="Alpha">Alpha</option>
+                        <option value="Closed Beta">Closed Beta</option>
+                        <option value="Open Beta">Open Beta</option>
+                        <option value="Early Access">Early Access</option>
+                        <option value="Official Release">Official Release</option>
+                    </select>
+                </div>
+                <fieldset class="col-span-2">
+                    <label class="font-semibold">Supported Platforms:</label>
+                    <label for="supportsPC" class="flex items-center">
+                        <input value="true" type="checkbox" name="supportsPC" class="mr-1" [(ngModel)]="supportsPC">
+                        PC
+                    </label>
+                    <label for="supportsPS" class="flex items-center">
+                        <input value="true" type="checkbox" name="supportsPS" class="mr-1" [(ngModel)]="supportsPS">
+                        PlayStation
+                    </label>
+                    <label for="supportsXbox" class="flex items-center">
+                        <input value="true" type="checkbox" name="supportsXbox" class="mr-1" [(ngModel)]="supportsXbox">
+                        Xbox
+                    </label>
+                    <label for="supportsNintendo" class="flex items-center">
+                        <input value="true" type="checkbox" name="supportsNintendo" class="mr-1"
+                            [(ngModel)]="supportsNintendo">
+                        Nintendo
+                    </label>
+                </fieldset>
+                <div class="col-span-2">
+                    <label for="imageUrl" class="font-semibold">Image URL:</label>
+                    <input type="text" name="imageUrl" class="w-full p-2 border rounded" [(ngModel)]="imageUrl"
+                        #imageUrlModel="ngModel" required>
+                    <span class="text-blue-500">{{validateImageUrl()}}</span>
+                </div>
+                <div class="col-span-2 z-50">
+                    <button type="submit" class="main-color text-white rounded bg-pink-600 w-32 h-12"
+                        [disabled]="!gameCreateForm.valid">
+                        Create Game
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -5,6 +5,7 @@ export const VALIDATION_MESSAGES = {
     GET_DETAILS_BY_ID_ERROR:
       'Something went wrong while fetching details for game with ID %s. Please try again later.',
     CREATE_NEW_ERROR: 'Failed to create new game. Please try again later',
+    CREATE_NEW_SUCCESS: 'Game created successfully',
     EDIT_BY_ID_ERROR: 'Failed to edit game with ID %s. Please try again later.',
     DELETE_ERROR: 'Failed to delete game. Please try again later.',
   },
@@ -27,5 +28,8 @@ export const VALIDATION_MESSAGES = {
     EDIT_BY_ID_ERROR:
       'Failed to edit guide with ID %s. Please try again later.',
     DELETE_ERROR: 'Failed to delete guide. Please try again later.',
+  },
+  FORM: {
+    INVALID_ERROR: 'Form is invalid',
   },
 };
