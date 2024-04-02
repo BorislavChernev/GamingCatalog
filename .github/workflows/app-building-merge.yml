@@ -10,18 +10,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18.x.x'
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install dependencies
-      working-directory: ./gaming-catalog-app
-      run: npm install
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "18.x.x"
 
-    - name: Build Angular app
-      working-directory: ./gaming-catalog-app
-      run: npm run build
+      - name: Install dependencies
+        working-directory: ./gaming-catalog-app
+        run: npm install
+
+      - name: Build Angular Back-End
+        working-directory: ./gaming-catalog-app
+        run: npm run start-back-end
+
+      - name: Build Angular Front-End
+        working-directory: ./gaming-catalog-app
+        run: npm run start-front-end
