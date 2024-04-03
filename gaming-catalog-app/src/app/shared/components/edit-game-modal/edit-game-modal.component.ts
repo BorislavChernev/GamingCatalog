@@ -31,14 +31,10 @@ export class EditGameModalComponent implements OnInit {
     }
   }
   openModal(): void {
-    console.log('alo da');
-
     this.modalDisplay = true;
   }
 
   closeModal(): void {
-    console.log('alo ne');
-
     this.modalDisplay = false;
   }
 

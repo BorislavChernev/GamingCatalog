@@ -29,6 +29,16 @@ export const VALIDATION_MESSAGES = {
       'Failed to edit guide with ID %s. Please try again later.',
     DELETE_ERROR: 'Failed to delete guide. Please try again later.',
   },
+  REVIEW: {
+    GET_ALL_ERROR:
+      'Something went wrong while fetching all reviews. Please try again later.',
+    GET_DETAILS_BY_ID_ERROR:
+      'Something went wrong while fetching details for review with ID %s. Please try again later.',
+    CREATE_NEW_ERROR: 'Failed to create new review. Please try again later',
+    EDIT_BY_ID_ERROR:
+      'Failed to edit review with ID %s. Please try again later.',
+    DELETE_ERROR: 'Failed to delete review. Please try again later.',
+  },
   FORM: {
     INVALID_ERROR: 'Form is invalid',
   },

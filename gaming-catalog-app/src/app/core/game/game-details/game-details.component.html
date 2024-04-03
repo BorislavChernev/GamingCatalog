@@ -61,12 +61,12 @@
                         class="mt-1 block w-full bg-pink-600 rounded-lg">
                 </div>
                 <div>
-                    <input type="hidden" name="gameId" value="@Model.Id" />
+                    <input type="hidden" name="gameId" />
                 </div>
                 <button type="submit" class="mt-2 bg-pink-600 text-white hover:bg-pink-700 px-3 py-1 rounded">
                     Rate this game
                 </button>
-                <a asp-action="AllGameReview" asp-controller="Review" asp-route-id="@Model.Id"
+                <a [routerLink]="['/Reviews/Game', game?._id]"
                     class="block mt-2 w-full select-none rounded-lg bg-pink-600 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none">
                     Show Reviews
                 </a>

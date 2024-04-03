@@ -2,8 +2,7 @@
     class="relative flex w-full max-w-[26rem] basis-1/3 flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg m-4">
     <div
         class="relative mx-4 mt-4 overflow-hidden rounded-xl bg-pink-gray-500 bg-clip-border text-white shadow-lg shadow-blue-gray-500/40">
-        <img src="https://cdn.akamai.steamstatic.com/steam/apps/242760/capsule_616x353.jpg?t=1666811027"
-            alt="ui/ux review check" />
+        <img [src]="game.imageUrl" alt="ui/ux review check" />
         <div
             class="to-bg-black-10 absolute inset-0 h-full w-full bg-gradient-to-tr from-transparent via-transparent to-black/60">
         </div>
@@ -12,7 +11,7 @@
         <div class="mb-3 flex items-center justify-between">
             <h5
                 class="truncate block font-sans text-xl font-medium leading-snug tracking-normal text-pink-gray-900 antialiased">
-                The Forest
+                {{game.name}}
             </h5>
             <p
                 class="flex items-center gap-1.5 font-sans text-base font-normal leading-relaxed text-pink-gray-900 antialiased">
@@ -26,53 +25,43 @@
             </p>
         </div>
         <p class="truncate block font-sans text-base font-light leading-relaxed text-gray-700 antialiased">
-            Survive a terrifying open-world experience as you build a shelter, craft weapons, and battle against mutated
-            creatures.
+            {{game.description}}
         </p>
         <div class="group mt-8 inline-flex flex-wrap items-center gap-3">
-            <!-- @if (Model.SupportsPC)
-            { -->
-            <span data-tooltip-target="pc"
+
+            <span *ngIf="game.supportsPC" data-tooltip-target="pc"
                 class="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
                 <i class="fa-solid fa-desktop"></i>
             </span>
-            <!-- } -->
 
-            <!-- @if (Model.SupportsPS)
-            { -->
-            <span data-tooltip-target="pc"
+            <span *ngIf="game.supportsPS" data-tooltip-target="pc"
                 class="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
                 <i class="fa-brands fa-playstation"></i>
             </span>
-            <!-- } -->
 
-            <!-- @if (Model.SupportsXbox)
-            { -->
-            <span data-tooltip-target="pc"
+            <span *ngIf="game.supportsXbox" data-tooltip-target="pc"
                 class="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
                 <i class="fa-brands fa-xbox"></i>
             </span>
-            <!-- } -->
 
-            <!-- @if (Model.SupportsNintendo)
-            { -->
-            <span data-tooltip-target="pc"
+            <span *ngIf="game.supportsNintendo" data-tooltip-target="pc"
                 class="cursor-pointer rounded-full border border-pink-500/5 bg-pink-500/5 p-3 text-pink-500 transition-colors hover:border-pink-500/10 hover:bg-pink-500/10 hover:!opacity-100 group-hover:opacity-70">
                 <i class="fa-solid fa-gamepad"></i>
             </span>
-            <!-- } -->
+
         </div>
     </div>
     <div class="p-6 pt-3">
-        <a class="block w-full select-none rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-            type="button" data-ripple-light="true" routerLink="test">
+        <button (click)="getGameDetails(game._id)"
+            class="block w-full select-none rounded-lg bg-pink-500 py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+            type="button" data-ripple-light="true">
             Details
-        </a>
+        </button>
     </div>
+    <button (click)=" deleteGame(game._id)" class="bg-pink-600 text-white hover:bg-pink-700 px-3 py-2 rounded">
+        <i class="fa-solid fa-trash"></i>
+    </button>
     <!-- @if (isAdmin)
     {
-    <a href="/Admin/Game/Delete/@Model.Id" class="bg-pink-600 text-white hover:bg-pink-700 px-3 py-2 rounded">
-        <i class="fa-solid fa-trash"></i>
-    </a>
     } -->
 </div>

@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Game } from 'src/app/interfaces/game.interface';
 import { VALIDATION_MESSAGES } from 'src/app/shared/constants/validation.errors';
+import { Review } from 'src/app/interfaces/review.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -48,7 +49,7 @@ export class GameService {
   }
 
   createNewGame(game: Game): Observable<any> {
-    return this.http.post<Game>(`${this.baseUrl}/games`, game).pipe(
+    return this.http.post<Game>(`${this.baseUrl}/Game/Create`, game).pipe(
       catchError((error) => {
         console.error('Error adding game:', error);
         return throwError(() => error);
@@ -57,13 +58,10 @@ export class GameService {
   }
 
   editGameById(id: string, updatedGameData: Partial<Game>): Observable<void> {
-    console.log(updatedGameData);
-    console.log(id);
     return this.http
       .put<void>(`${this.baseUrl}/Game/Edit/${id}`, updatedGameData)
       .pipe(
         catchError((error) => {
-          console.log('labadaadasdadad');
           console.error(
             VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', id),
             error
@@ -76,5 +74,20 @@ export class GameService {
           );
         })
       );
+  }
+
+  deleteGameById(id: string): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/Game/Delete/${id}`).pipe(
+      catchError((error) => {
+        console.error(
+          VALIDATION_MESSAGES.GAME.DELETE_ERROR.replace('%s', id),
+          error
+        );
+        return throwError(
+          () =>
+            new Error(VALIDATION_MESSAGES.GAME.DELETE_ERROR.replace('%s', id))
+        );
+      })
+    );
   }
 }

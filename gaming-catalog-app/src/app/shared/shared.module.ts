@@ -8,6 +8,7 @@ import { EditGameModalComponent } from './components/edit-game-modal/edit-game-m
 import { DiscussionItemComponent } from './components/discussion-item/discussion-item.component';
 import { GuideItemComponent } from './components/guide-item/guide-item.component';
 import { FormsModule } from '@angular/forms';
+import { ReviewModule } from '../core/review/review.module';
 
 @NgModule({
   declarations: [

@@ -9,6 +9,7 @@ import { DiscussionAllComponent } from './core/discussion/discussion-all/discuss
 import { GuideAllComponent } from './core/guide/guide-all/guide-all.component';
 import { GuideDetailsComponent } from './core/guide/guide-details/guide-details.component';
 import { GameCreateComponent } from './core/game/game-create/game-create.component';
+import { ReviewAllComponent } from './core/review/review-all/review-all.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -22,6 +23,8 @@ const routes: Routes = [
   { path: 'Game/Liked', component: GameAllComponent },
   { path: 'Game/Rated', component: GameAllComponent },
   { path: 'Game/Wished', component: GameAllComponent },
+  //The route paths below are for REVIEW model
+  { path: 'Reviews/Game/:id', component: ReviewAllComponent },
   //The route paths below are for DISCUSSION model
   { path: 'Discussion/All', component: DiscussionAllComponent },
   { path: 'Discussion/Details/1', component: DiscussionAllComponent },

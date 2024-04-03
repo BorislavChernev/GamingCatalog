@@ -9,6 +9,13 @@
 
 <body>
     <div class="flex flex-col">
+        <div class="container">
+            <div class="my-4">
+                <a routerLink="/Game/Create"
+                    class="bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700">Create
+                    new game</a>
+            </div>
+        </div>
         <!-- @if (Model.ViewModels.Count > 0) { -->
         <!-- <div class="flex flex-col-reverse h-full">
             <partial name="_PaginationPartial" model="@Model.PageViewModel" />
@@ -17,9 +24,8 @@
             <!-- @foreach (var viewModel in Model.ViewModels) {
             <partial name="_GamePartial" model="@viewModel" />
             } -->
-            <app-game-item />
-            <app-game-item />
-            <app-game-item />
+
+            <div *ngFor="let game of games"><app-game-item [game]="game" /></div>
         </div>
         <!-- } else { -->
         <!-- <p>There are no games available.</p> -->

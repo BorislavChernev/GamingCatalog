@@ -11,6 +11,7 @@ const port = 3000;
 const url = 'mongodb://127.0.0.1:27017';
 const dbName = 'GamingCatalogDB';
 process.setMaxListeners(0);
+
 // Connect to the MongoDB database when the server starts
 async function connectDatabase() {
     const client = new MongoClient(url);
@@ -24,6 +25,7 @@ async function connectDatabase() {
     }
 }
 let db;
+
 app.get('/test', (req, res) => {
     res.json({ message: 'CORS is configured correctly and the server is responding.' });
 });
@@ -42,14 +44,17 @@ app.get('/data', async (req, res) => {
 
 //  -------------------GAMES------------------------
 // Endpoint to create a new game
-app.post('/games', async (req, res) => {
+app.post('/Game/Create', async (req, res) => {
     console.log("Attempting to create a new game with data:", req.body);
     try {
         const db = await connectDatabase();
         const collection = db.collection('games');
+        console.log(req.body);
+        delete req.body._id;
         const result = await collection.insertOne(req.body);
         const insertedGame = { _id: result.insertedId, ...req.body };
-        res.status(201).json(insertedGame);
+        const gameUrl = `/Game/Details/${insertedGame._id}`; // Construct the URL
+        res.status(201).json({ game: insertedGame, redirectUrl: gameUrl }); // Send back the URL
     } catch (error) {
         console.error('Error creating game:', error);
         res.status(500).json({ error: 'Internal Server Error', details: error.message });
@@ -126,7 +131,82 @@ app.get('/Game/Details/:id', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+app.delete('/Game/Delete/:id', async (req, res) => {
+    try {
+        const db = await connectDatabase();
+        const gameId = req.params.id;
+
+        if (!ObjectId.isValid(gameId)) {
+            return res.status(400).send({ message: 'Invalid game ID format' });
+        }
+
+        const collection = db.collection('games');
+        const result = await collection.deleteOne({ _id: new ObjectId(gameId) });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).send({ message: 'Game not found' });
+        }
+
+        res.status(204).send(); // No content, successful deletion
+    } catch (error) {
+        console.error('Error deleting game:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    } finally {
+        if (db) await db.client.close();
+    }
+});
 //  -------------------GAMES------------------------
+
+
+//  -------------------REVIEWS------------------------
+app.post('/api/review/game/:id/create', async (req, res) => {
+
+    try {
+        const db = await connectDatabase();
+        const collection = db.collection('reviews');
+        console.log(req.body);
+        delete req.body._id;
+        console.log('do tuka stiga puk ddz');
+        const result = await collection.insertOne(req.body);
+        console.log('op purvi put');
+        const insertedReview = { gameId: result.insertedId, ...req.body };
+        console.log('op vtori put');
+        console.log(insertedReview);
+        res.status(201).json({ review: insertedReview }); // Send back the URL
+    } catch (error) {
+        console.error('Error creating review:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
+});
+
+app.get('/api/reviews/game/:id', async (req, res) => {
+    try {
+        const gameId = req.params.id;
+        const db = await connectDatabase();
+        const collection = db.collection('reviews');
+        const reviews = await collection.find({ gameId }).toArray();
+        res.json(reviews);
+    } catch (error) {
+        console.error('Error fetching reviews:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+// app.post('/Review/Game/:id/Create', async (req, res) => {
+//     try {
+//         const gameId = req.params.id;
+//         // Assign gameId to the review object
+//         const reviewData = { ...req.body, gameId };
+//         // Create a new review in the database
+//         const newReview = await Review.create(reviewData);
+//         res.status(201).json(newReview);
+//     } catch (error) {
+//         console.error('Error creating review:', error);
+//         res.status(500).json({ error: 'Internal Server Error' });
+//     }
+// });
+//  -------------------REVIEWS------------------------
 // Starts the server
 app.listen(port, () => {
     console.log(`Server is listening at http://localhost:${port}`);

@@ -58,6 +58,7 @@ export class GameCreateComponent {
   submitForm() {
     if (this.gameCreateForm.valid) {
       const newGame: Game = {
+        _id: '',
         id: uuidv4(),
         name: this.name,
         description: this.description,
@@ -73,10 +74,12 @@ export class GameCreateComponent {
       };
 
       this.gameService.createNewGame(newGame).subscribe({
-        next: () => {
+        next: (response) => {
           console.log(VALIDATION_MESSAGES.GAME.CREATE_NEW_SUCCESS);
           // this.gameCreateForm.reset();
-          this.router.navigate(['/games', newGame.id]);
+          const redirectUrl = response.redirectUrl;
+          // Navigate to the URL
+          this.router.navigate([redirectUrl]);
         },
         error: (error) => {
           console.error(error);
