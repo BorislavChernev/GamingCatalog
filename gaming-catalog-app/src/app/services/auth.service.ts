@@ -55,4 +55,9 @@ export class AuthService {
         })
       );
   }
+
+  isAdmin(): boolean | null {
+    const currentUser = this.currentUserValue;
+    return currentUser && currentUser.role === 'admin';
+  }
 }

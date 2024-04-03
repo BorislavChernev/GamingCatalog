@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { Discussion } from 'src/app/interfaces/discussion.interface';
 import { DiscussionService } from '../discussion.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-discussion-item',
@@ -12,7 +13,8 @@ export class DiscussionItemComponent {
   @Input() discussion!: Discussion;
   constructor(
     private router: Router,
-    private discussionService: DiscussionService
+    private discussionService: DiscussionService,
+    public authService: AuthService
   ) {}
 
   deleteDiscussion(id: string) {

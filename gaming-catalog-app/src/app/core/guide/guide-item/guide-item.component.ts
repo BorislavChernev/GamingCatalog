@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { Guide } from 'src/app/interfaces/guide.interface';
 import { GuideService } from '../guide.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-guide-item',
@@ -10,7 +11,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class GuideItemComponent {
   @Input() guide!: Guide;
-  constructor(private router: Router, private guideService: GuideService) {}
+  constructor(
+    private router: Router,
+    private guideService: GuideService,
+    public authService: AuthService
+  ) {}
 
   deleteGuide(id: string): void {
     console.log(id);

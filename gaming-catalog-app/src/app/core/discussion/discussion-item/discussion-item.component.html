@@ -17,7 +17,7 @@
     </div>
     <!-- @if (isAdmin)
     { -->
-    <button (click)="deleteDiscussion(discussion._id)"
+    <button *ngIf="authService.isAdmin()" (click)="deleteDiscussion(discussion._id)"
         class="bg-pink-600 text-white hover:bg-pink-700 px-3 py-2 rounded">
         <i class="fa-solid fa-trash"></i>
     </button>

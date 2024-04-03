@@ -13,8 +13,6 @@ export class GuideService {
   constructor(private http: HttpClient) {}
 
   getAllGameGuides(): Observable<Guide[]> {
-    console.log('got mi e na danaya sega kura');
-
     return this.http.get<Guide[]>(`${this.baseUrl}/api/guides/game`).pipe(
       catchError((error) => {
         console.error('Error fetching Guides:', error);

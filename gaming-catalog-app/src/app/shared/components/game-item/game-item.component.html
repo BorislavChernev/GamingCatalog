@@ -58,7 +58,8 @@
             Details
         </button>
     </div>
-    <button (click)="deleteGame(game._id)" class="bg-pink-600 text-white hover:bg-pink-700 px-3 py-2 rounded">
+    <button *ngIf="authService.isAdmin()" (click)="deleteGame(game._id)"
+        class="bg-pink-600 text-white hover:bg-pink-700 px-3 py-2 rounded">
         <i class="fa-solid fa-trash"></i>
     </button>
     <!-- @if (isAdmin)

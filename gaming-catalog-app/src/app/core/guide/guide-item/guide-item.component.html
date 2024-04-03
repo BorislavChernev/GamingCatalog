@@ -37,7 +37,8 @@
     </div>
     <!-- @if (isAdmin)
     { -->
-    <a (click)=" deleteGuide(guide._id)" class="bg-pink-600 text-white hover:bg-pink-700 px-3 py-2 rounded">
+    <a *ngIf="authService.isAdmin()" (click)=" deleteGuide(guide._id)"
+        class="bg-pink-600 text-white hover:bg-pink-700 px-3 py-2 rounded">
         <i class="fa-solid fa-trash"></i>
     </a>
     <!-- } -->
