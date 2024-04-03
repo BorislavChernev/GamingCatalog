@@ -60,4 +60,12 @@ export class AuthService {
     const currentUser = this.currentUserValue;
     return currentUser && currentUser.role === 'admin';
   }
+
+  isUser(): boolean | null {
+    const currentUser = this.currentUserValue;
+    return (
+      (currentUser && currentUser.token != null) ||
+      currentUser?.token != undefined
+    );
+  }
 }
