@@ -1,0 +1,65 @@
+<div class="bg-gray-100">
+    <div class="flex justify-center items-center min-h-screen">
+        <div class="w-full max-w-xl p-4 bg-white rounded-lg shadow-lg">
+            <h1 class="text-xl font-semibold mb-3">Create a Guide</h1>
+            <form #guideCreateForm="ngForm" (ngSubmit)="submitForm()" class="grid grid-cols-2 gap-3">
+                <div class="col-span-2">
+                    <label class="font-semibold">Title</label>
+                    <input type="text" name="Title" class="w-full p-2 border rounded" [(ngModel)]="title">
+                    <span class="text-red-500">Title length should be between 2 and 100
+                        characters</span>
+                </div>
+                <div class="col-span-2">
+                    <label class="font-semibold">Description</label>
+                    <textarea name="Description" class="w-full p-2 border rounded" [(ngModel)]="description"></textarea>
+                    <span class="text-red-500">Description length should be between 30
+                        and 1000 characters</span>
+                </div>
+                <div>
+                    <label class="font-semibold">Language</label>
+                    <select [(ngModel)]="language" name="Language" class="w-full p-2 border rounded">
+                        <option value="English">English</option>
+                        <option value="Russian">Russian</option>
+                        <option value="Bulgarian">Bulgarian</option>
+                        <option value="Italian">Italian</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="French">French</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="Chinese">Chinese</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="font-semibold">Category</label>
+                    <select [(ngModel)]="category" name="Category" class="w-full p-2 border rounded">
+                        <option value="Gameplay">Gameplay Basic</option>
+                        <option value="Crafting">Crafting</option>
+                        <option value="Walkthroughs">Walkthroughs</option>
+                        <option value="Secrets">Secrets</option>
+                        <option value="Loot">Loot</option>
+                        <option value="Multiplayer">Multiplayer</option>
+                        <option value="Achievements">Achievements</option>
+                        <option value="MapsOrLevels">Maps Or Levels</option>
+                        <option value="ModdingOrConfiguration">Modding Or Configuration</option>
+                        <option value="Characters">Characters</option>
+                        <option value="StoryOrLore">Story Or Lore</option>
+                        <option value="GameModes">Game Modes</option>
+                        <option value="Trading">Trading</option>
+                        <option value="Classes">Classes</option>
+                        <option value="Workshop">Workshop</option>
+                        <option value="Weapons">Weapons</option>
+                    </select>
+                </div>
+                <div class="col-span-2">
+                    <label class="font-semibold">Game ID</label>
+                    <input [(ngModel)]="gameId" type="text" name="GameId" class="w-full p-2 border rounded">
+                    <span class="text-red-500">This is a required field.</span>
+                </div>
+                <div class="col-span-2">
+                    <button type="submit" type="submit" class="main-color text-white py-2 px-4 rounded bg-pink-700">
+                        Create Guide
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

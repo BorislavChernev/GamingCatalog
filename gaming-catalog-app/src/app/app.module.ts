@@ -16,6 +16,7 @@ import { DiscussionModule } from './core/discussion/discussion.module';
 import { GuideModule } from './core/guide/guide.module';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { ReviewModule } from './core/review/review.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forRoot([]),
     HttpClientModule,
     GameModule,
+    ReviewModule,
     DiscussionModule,
     FeaturesModule,
     GuideModule,

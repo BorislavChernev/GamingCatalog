@@ -2,20 +2,20 @@
     <div class="p-6 h-full">
         <h5
             class="mb-2 block font-sans text-xl font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-            Beginner's Guide to The Forest
+            {{guide.title}}
         </h5>
         <h6
             class="mb-2 block font-sans text-md font-semibold leading-snug tracking-normal text-blue-gray-900 antialiased">
-            GameplayBasic
+            {{guide.category}}
         </h6>
         <p class="h-12 block font-sans text-base font-light text-ellipsis overflow-hidden whitespace-normal">
-            In this guide, you will learn how to survive the first few days in The Forest
+            {{guide.description}}
         </p>
 
         <div class="flex flex-row w-full">
             <div
                 class="center relative inline-block select-none whitespace-nowrap rounded-md bg-pink-500 mt-2.5 py-1 px-2 align-baseline font-sans text-xs font-bold uppercase leading-none text-white">
-                English
+                {{guide.language}}
             </div>
 
             <div class="flex flex-row-reverse w-full">
@@ -37,7 +37,7 @@
     </div>
     <!-- @if (isAdmin)
     { -->
-    <a routerLink="Guide/Details/1" class="bg-pink-600 text-white hover:bg-pink-700 px-3 py-2 rounded">
+    <a (click)=" deleteGuide(guide._id)" class="bg-pink-600 text-white hover:bg-pink-700 px-3 py-2 rounded">
         <i class="fa-solid fa-trash"></i>
     </a>
     <!-- } -->

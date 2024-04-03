@@ -6,9 +6,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { EditGameModalComponent } from './components/edit-game-modal/edit-game-modal.component';
 import { DiscussionItemComponent } from './components/discussion-item/discussion-item.component';
-import { GuideItemComponent } from './components/guide-item/guide-item.component';
 import { FormsModule } from '@angular/forms';
-import { ReviewModule } from '../core/review/review.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +15,6 @@ import { ReviewModule } from '../core/review/review.module';
     NavbarComponent,
     EditGameModalComponent,
     DiscussionItemComponent,
-    GuideItemComponent,
   ],
   imports: [CommonModule, RouterModule, FormsModule],
   exports: [
@@ -26,7 +23,6 @@ import { ReviewModule } from '../core/review/review.module';
     NavbarComponent,
     EditGameModalComponent,
     DiscussionItemComponent,
-    GuideItemComponent,
     FormsModule,
   ],
 })

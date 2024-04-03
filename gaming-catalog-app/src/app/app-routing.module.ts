@@ -10,6 +10,7 @@ import { GuideAllComponent } from './core/guide/guide-all/guide-all.component';
 import { GuideDetailsComponent } from './core/guide/guide-details/guide-details.component';
 import { GameCreateComponent } from './core/game/game-create/game-create.component';
 import { ReviewAllComponent } from './core/review/review-all/review-all.component';
+import { GuideCreateComponent } from './core/guide/guide-create/guide-create.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -32,9 +33,9 @@ const routes: Routes = [
   { path: 'Discussion/Create', component: DiscussionAllComponent },
   //The route paths below are for GUIDE model
   { path: 'Guide/All', component: GuideAllComponent },
-  { path: 'Guide/Details/1', component: GuideDetailsComponent },
-  { path: 'Guide/Delete/1', component: GuideAllComponent },
-  { path: 'Guide/Create', component: GuideAllComponent },
+  { path: 'Guide/Details/:id', component: GuideDetailsComponent },
+  { path: 'Guide/Delete/:id', component: GuideAllComponent },
+  { path: 'Guide/Create', component: GuideCreateComponent },
 ];
 
 @NgModule({

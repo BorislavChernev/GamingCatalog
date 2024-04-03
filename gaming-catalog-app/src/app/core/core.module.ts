@@ -4,5 +4,6 @@ import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   imports: [CommonModule, SharedModule],
+  declarations: [],
 })
 export class CoreModule {}

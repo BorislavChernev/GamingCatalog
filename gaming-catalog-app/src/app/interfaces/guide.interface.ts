@@ -1,8 +1,9 @@
 export interface Guide {
-  titles: string;
+  _id: string;
+  title: string;
   description: string;
   language: string;
   category: string;
   gameId: string;
-  writerId: string;
+  author: string;
 }

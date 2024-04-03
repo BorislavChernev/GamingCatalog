@@ -158,6 +158,65 @@ app.delete('/Game/Delete/:id', async (req, res) => {
 });
 //  -------------------GAMES------------------------
 
+//  -------------------GUIDES------------------------
+app.post('/api/guide/game/:id/create', async (req, res) => {
+
+    try {
+        const db = await connectDatabase();
+        const collection = db.collection('guides');
+        console.log(req.body);
+        delete req.body._id;
+        console.log('do tuka stiga puk ddz');
+        const result = await collection.insertOne(req.body);
+        console.log('op purvi put');
+        const insertedGuide = { gameId: result.insertedId, ...req.body };
+        console.log('op vtori put');
+        console.log(insertedGuide);
+        res.status(201).json({ guide: insertedGuide }); // Send back the URL
+    } catch (error) {
+        console.error('Error creating guide:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
+});
+
+app.get('/api/guides/game', async (req, res) => {
+    try {
+        const db = await connectDatabase();
+        const collection = db.collection('guides');
+        const guides = await collection.find().toArray();
+        res.json(guides);
+    } catch (error) {
+        console.error('Error fetching guides:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
+app.delete('/Guide/Delete/:id', async (req, res) => {
+    try {
+        const db = await connectDatabase();
+        const id = req.params.id;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).send({ message: 'Invalid guide ID format' });
+        }
+
+        const collection = db.collection('guides');
+        const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).send({ message: 'Guide not found' });
+        }
+
+        res.status(204).send(); // No content, successful deletion
+    } catch (error) {
+        console.error('Error deleting guide:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    } finally {
+        if (db) await db.client.close();
+    }
+});
+//  -------------------GUIDES------------------------
+
 
 //  -------------------REVIEWS------------------------
 app.post('/api/review/game/:id/create', async (req, res) => {

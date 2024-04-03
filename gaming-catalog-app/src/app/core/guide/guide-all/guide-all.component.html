@@ -4,38 +4,31 @@
 
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title>@ViewData["Title"]</title>
+    <title>All Guides</title>
 </head>
 
 <body>
     <div class="container">
         <div class="flex justfiy-center w-full">
             <div class="my-4">
-                <a href="/Guide/CreateNew" class="bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700">Create
+                <a [routerLink]="['/Guide/Create']"
+                    class="bg-pink-600 text-white py-2 px-4 rounded-md hover:bg-pink-700">Create
                     Guide</a>
             </div>
         </div>
-        <!-- @if (Model.ViewModels.Count > 0)
-        { -->
         <div class="h-full flex flex-row flex-wrap">
             <div class="flex flex-col-reverse h-full w-full">
                 <!-- <partial name="_PaginationPartial" model="@Model.PageViewModel" /> -->
             </div>
             <div class="w-full flex flex-row flex-wrap justify-content-center">
-                <!-- @foreach (var viewModel in Model.ViewModels)
-                {
-                <partial name="_GuidePartial" model="viewModel" />
-                } -->
-                <app-guide-item />
-                <app-guide-item />
-                <app-guide-item />
+                <div *ngFor="let guide of guides">
+                    <app-guide-item [guide]="guide" />
+                </div>
             </div>
         </div>
-        <!-- }
-        else
-        { -->
-        <p>There are no games available.</p>
-        <!-- } -->
+        <!-- <div *ngIf="{guides.length > 0}">
+            <p>There are no games available.</p>
+        </div> -->
     </div>
 </body>
 

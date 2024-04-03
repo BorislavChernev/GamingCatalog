@@ -10,11 +10,7 @@ import { Game } from 'src/app/interfaces/game.interface';
 })
 export class GameItemComponent {
   @Input() game!: Game;
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private gameService: GameService
-  ) {}
+  constructor(private router: Router, private gameService: GameService) {}
 
   deleteGame(id: string) {
     console.log(id);
