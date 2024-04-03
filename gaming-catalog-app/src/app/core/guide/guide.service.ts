@@ -67,6 +67,26 @@ export class GuideService {
       })
     );
   }
+
+  getGuideDetailsById(id: string): Observable<Guide> {
+    return this.http.get<Guide>(`${this.baseUrl}/Guide/Details/${id}`).pipe(
+      catchError((error) => {
+        console.error(
+          VALIDATION_MESSAGES.GUIDE.GET_DETAILS_BY_ID_ERROR.replace('%s', id),
+          error
+        );
+        return throwError(
+          () =>
+            new Error(
+              VALIDATION_MESSAGES.GUIDE.GET_DETAILS_BY_ID_ERROR.replace(
+                '%s',
+                id
+              )
+            )
+        );
+      })
+    );
+  }
 }
 
 // getAllGuides(): Observable<Guide[]> {

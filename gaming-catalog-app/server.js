@@ -158,6 +158,64 @@ app.delete('/Game/Delete/:id', async (req, res) => {
 });
 //  -------------------GAMES------------------------
 
+
+//  -------------------DISCUSSION------------------------
+app.post('/Discussion/Create', async (req, res) => {
+    console.log("Attempting to create a new discussion with data:", req.body);
+    try {
+        const db = await connectDatabase();
+        const collection = db.collection('discussions');
+        console.log(req.body);
+        delete req.body._id;
+        const result = await collection.insertOne(req.body);
+        const insertedDiscussion = { _id: result.insertedId, ...req.body };
+        const discussionUrl = `/Discussion/Details/${insertedDiscussion._id}`; // Construct the URL
+        res.status(201).json({ discussion: insertedDiscussion, redirectUrl: discussionUrl }); // Send back the URL
+    } catch (error) {
+        console.error('Error creating discussion:', error);
+        res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
+});
+
+app.delete('/Discussion/Delete/:id', async (req, res) => {
+    try {
+        const db = await connectDatabase();
+        const id = req.params.id;
+
+        if (!ObjectId.isValid(id)) {
+            return res.status(400).send({ message: 'Invalid discussion ID format' });
+        }
+
+        const collection = db.collection('discussions');
+        const result = await collection.deleteOne({ _id: new ObjectId(id) });
+
+        if (result.deletedCount === 0) {
+            return res.status(404).send({ message: 'Discussion not found' });
+        }
+
+        res.status(204).send(); // No content, successful deletion
+    } catch (error) {
+        console.error('Error deleting discussion:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    } finally {
+        if (db) await db.client.close();
+    }
+});
+
+app.get('/discussions', async (req, res) => {
+    try {
+        const db = await connectDatabase();
+        const collection = db.collection('discussions');
+        const discussions = await collection.find({}).toArray();
+
+        res.json(discussions);
+    } catch (error) {
+        console.error('Error getting discussions:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+//  -------------------DISCUSSION------------------------
+
 //  -------------------GUIDES------------------------
 app.post('/api/guide/game/:id/create', async (req, res) => {
 
@@ -190,6 +248,27 @@ app.get('/api/guides/game', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+app.get('/Guide/Details/:id', async (req, res) => {
+    try {
+        // if (!new ObjectId.isValid(req.params.id)) {
+        //     return res.status(400).json({ error: 'Invalid game ID format' });
+        // }
+        const db = await connectDatabase();
+        const collection = db.collection('guides');
+
+        const guide = await collection.findOne({ _id: new ObjectId(req.params.id) });
+        if (!guide) {
+            res.status(404).json({ error: 'Guide not found' });
+        } else {
+            res.json(guide);
+        }
+    } catch (error) {
+        console.error('Error getting guide by ID:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
+
 
 app.delete('/Guide/Delete/:id', async (req, res) => {
     try {

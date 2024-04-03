@@ -11,6 +11,8 @@ import { GuideDetailsComponent } from './core/guide/guide-details/guide-details.
 import { GameCreateComponent } from './core/game/game-create/game-create.component';
 import { ReviewAllComponent } from './core/review/review-all/review-all.component';
 import { GuideCreateComponent } from './core/guide/guide-create/guide-create.component';
+import { DiscussionCreateComponent } from './core/discussion/discussion-create/discussion-create.component';
+import { DiscussionDetailsComponent } from './core/discussion/discussion-details/discussion-details.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -28,9 +30,9 @@ const routes: Routes = [
   { path: 'Reviews/Game/:id', component: ReviewAllComponent },
   //The route paths below are for DISCUSSION model
   { path: 'Discussion/All', component: DiscussionAllComponent },
-  { path: 'Discussion/Details/1', component: DiscussionAllComponent },
-  { path: 'Discussion/Delete/1', component: DiscussionAllComponent },
-  { path: 'Discussion/Create', component: DiscussionAllComponent },
+  { path: 'Discussion/Details/:id', component: DiscussionDetailsComponent },
+  { path: 'Discussion/Delete/:id', component: DiscussionAllComponent },
+  { path: 'Discussion/Create', component: DiscussionCreateComponent },
   //The route paths below are for GUIDE model
   { path: 'Guide/All', component: GuideAllComponent },
   { path: 'Guide/Details/:id', component: GuideDetailsComponent },

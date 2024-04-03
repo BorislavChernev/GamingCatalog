@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  AngularFirestore,
-  DocumentReference,
-} from '@angular/fire/compat/firestore';
+import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Discussion } from 'src/app/interfaces/discussion.interface';
 import { VALIDATION_MESSAGES } from 'src/app/shared/constants/validation.errors';
@@ -11,80 +8,111 @@ import { VALIDATION_MESSAGES } from 'src/app/shared/constants/validation.errors'
   providedIn: 'root',
 })
 export class DiscussionService {
-  constructor(private firestore: AngularFirestore) {}
+  private readonly baseUrl = 'http://127.0.0.1:3000';
+  constructor(private http: HttpClient) {}
 
-  getAllDiscussions(): Observable<Discussion[]> {
-    return this.firestore
-      .collection<Discussion>('discussions')
-      .valueChanges()
-      .pipe(
-        catchError((error) => {
-          console.error(VALIDATION_MESSAGES.DISCUSSION.GET_ALL_ERROR, error);
-          return throwError(
-            () => new Error(VALIDATION_MESSAGES.DISCUSSION.GET_ALL_ERROR)
-          );
-        })
-      );
-  }
+  // getAllDiscussions(): Observable<Discussion[]> {
+  //   return this.firestore
+  //     .collection<Discussion>('discussions')
+  //     .valueChanges()
+  //     .pipe(
+  //       catchError((error) => {
+  //         console.error(VALIDATION_MESSAGES.DISCUSSION.GET_ALL_ERROR, error);
+  //         return throwError(
+  //           () => new Error(VALIDATION_MESSAGES.DISCUSSION.GET_ALL_ERROR)
+  //         );
+  //       })
+  //     );
+  // }
 
-  getDiscussionDetailsById(
-    DiscussionId: string
-  ): Observable<Discussion | undefined> {
-    return this.firestore
-      .collection<Discussion>('discussions')
-      .doc<Discussion>(DiscussionId)
-      .valueChanges()
+  // getDiscussionDetailsById(
+  //   DiscussionId: string
+  // ): Observable<Discussion | undefined> {
+  //   return this.firestore
+  //     .collection<Discussion>('discussions')
+  //     .doc<Discussion>(DiscussionId)
+  //     .valueChanges()
+  //     .pipe(
+  //       catchError((error) => {
+  //         console.error(
+  //           VALIDATION_MESSAGES.DISCUSSION.GET_DETAILS_BY_ID_ERROR.replace(
+  //             '%s',
+  //             DiscussionId
+  //           ),
+  //           error
+  //         );
+  //         return throwError(
+  //           () =>
+  //             new Error(
+  //               VALIDATION_MESSAGES.DISCUSSION.GET_DETAILS_BY_ID_ERROR.replace(
+  //                 '%s',
+  //                 DiscussionId
+  //               )
+  //             )
+  //         );
+  //       })
+  //     );
+  // }
+  deleteDiscussionById(id: string): Observable<void> {
+    return this.http
+      .delete<void>(`${this.baseUrl}/Discussion/Delete/${id}`)
       .pipe(
         catchError((error) => {
           console.error(
-            VALIDATION_MESSAGES.DISCUSSION.GET_DETAILS_BY_ID_ERROR.replace(
-              '%s',
-              DiscussionId
-            ),
+            VALIDATION_MESSAGES.DISCUSSION.DELETE_ERROR.replace('%s', id),
             error
           );
           return throwError(
             () =>
               new Error(
-                VALIDATION_MESSAGES.DISCUSSION.GET_DETAILS_BY_ID_ERROR.replace(
-                  '%s',
-                  DiscussionId
-                )
+                VALIDATION_MESSAGES.DISCUSSION.DELETE_ERROR.replace('%s', id)
               )
           );
         })
       );
   }
 
-  createNewDiscussion(
-    Discussion: Discussion
-  ): Promise<DocumentReference<Discussion>> {
-    return this.firestore
-      .collection<Discussion>('Discussions')
-      .add(Discussion)
-      .catch((error) => {
-        console.error(VALIDATION_MESSAGES.DISCUSSION.CREATE_NEW_ERROR, error);
-        throw new Error(VALIDATION_MESSAGES.DISCUSSION.CREATE_NEW_ERROR);
-      });
+  getAllDiscussions(): Observable<Discussion[]> {
+    console.log('koi kaza ko');
+
+    return this.http.get<Discussion[]>(`${this.baseUrl}/discussions`).pipe(
+      catchError((error) => {
+        console.error(VALIDATION_MESSAGES.DISCUSSION.GET_ALL_ERROR, error);
+        return throwError(
+          () => new Error(VALIDATION_MESSAGES.DISCUSSION.GET_ALL_ERROR)
+        );
+      })
+    );
   }
 
-  editDiscussionById(
-    DiscussionId: string,
-    updatedDiscussionData: Partial<Discussion>
-  ): Promise<void> {
-    return this.firestore
-      .collection<Discussion>('Discussions')
-      .doc(DiscussionId)
-      .update(updatedDiscussionData)
-      .catch((error) => {
-        console.error(
-          VALIDATION_MESSAGES.DISCUSSION.EDIT_BY_ID_ERROR.replace(
-            '%s',
-            DiscussionId
-          ),
-          error
-        );
-        throw new Error(VALIDATION_MESSAGES.DISCUSSION.EDIT_BY_ID_ERROR);
-      });
+  createNewDiscussion(discussion: Discussion): Observable<any> {
+    return this.http
+      .post<Discussion>(`${this.baseUrl}/Discussion/Create`, discussion)
+      .pipe(
+        catchError((error) => {
+          console.error('Error adding discussion:', error);
+          return throwError(() => error);
+        })
+      );
   }
+
+  // editDiscussionById(
+  //   DiscussionId: string,
+  //   updatedDiscussionData: Partial<Discussion>
+  // ): Promise<void> {
+  //   return this.firestore
+  //     .collection<Discussion>('Discussions')
+  //     .doc(DiscussionId)
+  //     .update(updatedDiscussionData)
+  //     .catch((error) => {
+  //       console.error(
+  //         VALIDATION_MESSAGES.DISCUSSION.EDIT_BY_ID_ERROR.replace(
+  //           '%s',
+  //           DiscussionId
+  //         ),
+  //         error
+  //       );
+  //       throw new Error(VALIDATION_MESSAGES.DISCUSSION.EDIT_BY_ID_ERROR);
+  //     });
+  // }
 }

@@ -28,4 +28,10 @@ export class GuideItemComponent {
       });
     }
   }
+
+  getGameDetails(id: string) {
+    console.log(id);
+
+    this.router.navigate(['Guide', 'Details', id]);
+  }
 }

@@ -5,7 +5,6 @@ import { TitlebarComponent } from './components/titlebar/titlebar.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { EditGameModalComponent } from './components/edit-game-modal/edit-game-modal.component';
-import { DiscussionItemComponent } from './components/discussion-item/discussion-item.component';
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
@@ -14,7 +13,6 @@ import { FormsModule } from '@angular/forms';
     TitlebarComponent,
     NavbarComponent,
     EditGameModalComponent,
-    DiscussionItemComponent,
   ],
   imports: [CommonModule, RouterModule, FormsModule],
   exports: [
@@ -22,7 +20,6 @@ import { FormsModule } from '@angular/forms';
     TitlebarComponent,
     NavbarComponent,
     EditGameModalComponent,
-    DiscussionItemComponent,
     FormsModule,
   ],
 })

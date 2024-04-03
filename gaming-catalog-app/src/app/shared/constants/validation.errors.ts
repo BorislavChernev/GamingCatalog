@@ -17,6 +17,7 @@ export const VALIDATION_MESSAGES = {
     CREATE_NEW_ERROR: 'Failed to create new discussion. Please try again later',
     EDIT_BY_ID_ERROR:
       'Failed to edit discussion with ID %s. Please try again later.',
+    CREATE_NEW_SUCCESS: 'Discussion created successfully',
     DELETE_ERROR: 'Failed to delete discussion. Please try again later.',
   },
   GUIDE: {

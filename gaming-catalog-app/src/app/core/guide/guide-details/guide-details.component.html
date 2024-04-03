@@ -1,7 +1,7 @@
 <div class="bg-pink-600 py-4">
     <div class="container mx-auto px-4">
         <div class="text-white">
-            <h1 class="text-2xl font-bold">Beginner's Guide to The Forest</h1>
+            <h1 class="text-2xl font-bold">{{guide?.title}}</h1>
         </div>
     </div>
 </div>
@@ -13,15 +13,14 @@
                 alt="@Model.Title" class="rounded-lg shadow-lg">
         </div>
         <div class="w-full lg:w-1/2 px-2">
-            <h2 class="text-lg font-semibold mb-2">GameplayBasic</h2>
-            <p>In this guide, you will learn how to survive the first few days in The Forest</p>
+            <h2 class="text-lg font-semibold mb-2">{{guide?.category}}</h2>
+            <p>{{guide?.description}}</p>
 
             <h2 class="text-lg font-semibold mt-4">Details</h2>
             <ul class="list-disc pl-6 mt-2">
-                <li>Language: English</li>
-                <li>Category: Survival</li>
-                <li>Game: The Forest</li>
-                <li>Writer: Borko</li>
+                <li>Language: {{guide?.language}}</li>
+                <li>Category: {{guide?.category}}</li>
+                <li>Writer: {{guide?.author}}</li>
             </ul>
         </div>
     </div>
