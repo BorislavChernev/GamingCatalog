@@ -1,12 +1,11 @@
 <div class="bg-pink-600 py-8">
     <div class="container mx-auto px-4">
         <div class="flex justify-center items-center relative">
-            <img src="https://cdn.akamai.steamstatic.com/steam/apps/242760/capsule_616x353.jpg?t=1666811027"
-                alt="@Model.Name" class="max-w-full h-auto rounded-lg shadow-lg">
+            <img src="{{game?.imageUrl}}" class="max-w-full h-auto rounded-lg shadow-lg">
             <div class="absolute bottom-0 right-0 mb-4 mr-4 flex space-x-2">
-                <form method="post" asp-controller="Game" asp-action="Like">
+                <form method="post">
                     <div>
-                        <input type="hidden" name="gameId" value="@Model.Id" />
+                        <input type="hidden" name="gameId" value="{{game?.id}}" />
                     </div>
                     <button name="liked" value="true" type="submit"
                         class="middle none center bg-pink-500 p-2 rounded-full text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-75 focus:shadow-none active:opacity-75 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -14,9 +13,9 @@
                         <i class="fa-solid fa-heart"></i>
                     </button>
                 </form>
-                <form method="post" asp-controller="Game" asp-action="Wish">
+                <form method="post">
                     <div>
-                        <input type="hidden" name="gameId" value="@Model.Id" />
+                        <input type="hidden" name="gameId" value="{{game?.id}}" />
                     </div>
                     <button name="wished" value="true" type="submit"
                         class="middle none center bg-pink-500 p-2 rounded-full text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-75 focus:shadow-none active:opacity-75 active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -31,21 +30,20 @@
 
 <div class="container mx-auto px-4 mt-8 grid grid-cols-2 gap-8">
     <div>
-        <h1 class="text-3xl font-bold text-center mb-4">The Forest</h1>
-        <p class="text-gray-600">Survive a terrifying open-world experience as you build a shelter, craft weapons, and
-            battle against mutated creatures.</p>
+        <h1 class="text-3xl font-bold text-center mb-4">{{game?.name}}</h1>
+        <p class="text-gray-600">{{game?.description}}</p>
 
         <div class="mt-6">
             <h2 class="text-xl font-semibold mb-2">Details</h2>
             <ul class="list-disc pl-6">
-                <li>Release Date: 2014-05-30</li>
-                <li>Status: OfficialRelease</li>
+                <li>Release Date: {{game?.releaseDate}}</li>
+                <li>Status: {{game?.releaseStatusType}}</li>
                 <li>
                     Platform Support:
-                    <span class="text-green-500">PC</span>
-                    <span class="text-blue-500">PlayStation</span>
-                    <span class="text-indigo-500">Xbox</span>
-                    <span class="text-red-500">Nintendo</span>
+                    <span *ngIf="game?.supportsPC" class="text-green-500">PC </span>
+                    <span *ngIf="game?.supportsPS" class="text-blue-500">PlayStation </span>
+                    <span *ngIf="game?.supportsXbox" class="text-indigo-500">Xbox </span>
+                    <span *ngIf="game?.supportsNintendo" class="text-red-500">Nintendo </span>
                 </li>
                 <li>Rating: 53</li>
                 <li>Likes: 3</li>

@@ -25,7 +25,7 @@ export class GameService {
   }
 
   getGameDetailsById(gameId: string): Observable<Game> {
-    return this.http.get<Game>(`${this.baseUrl}/games/${gameId}`).pipe(
+    return this.http.get<Game>(`${this.baseUrl}/Game/Details/${gameId}`).pipe(
       catchError((error) => {
         console.error(
           VALIDATION_MESSAGES.GAME.GET_DETAILS_BY_ID_ERROR.replace(
@@ -56,22 +56,22 @@ export class GameService {
     );
   }
 
-  editGameById(
-    gameId: string,
-    updatedGameData: Partial<Game>
-  ): Observable<void> {
+  editGameById(id: string, updatedGameData: Partial<Game>): Observable<void> {
+    console.log(updatedGameData);
+    console.log(id);
     return this.http
-      .put<void>(`${this.baseUrl}/games/${gameId}`, updatedGameData)
+      .put<void>(`${this.baseUrl}/Game/Edit/${id}`, updatedGameData)
       .pipe(
         catchError((error) => {
+          console.log('labadaadasdadad');
           console.error(
-            VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', gameId),
+            VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', id),
             error
           );
           return throwError(
             () =>
               new Error(
-                VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', gameId)
+                VALIDATION_MESSAGES.GAME.EDIT_BY_ID_ERROR.replace('%s', id)
               )
           );
         })

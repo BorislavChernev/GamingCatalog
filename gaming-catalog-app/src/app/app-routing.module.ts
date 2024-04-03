@@ -17,6 +17,7 @@ const routes: Routes = [
   { path: 'Game/All', component: GameAllComponent },
   { path: 'Game/Details/:id', component: GameDetailsComponent },
   { path: 'Game/Delete/:id', component: GameAllComponent },
+  { path: 'Game/Edit/:id', component: GameAllComponent },
   { path: 'Game/Create', component: GameCreateComponent },
   { path: 'Game/Liked', component: GameAllComponent },
   { path: 'Game/Rated', component: GameAllComponent },

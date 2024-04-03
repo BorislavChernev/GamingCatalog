@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { EditGameModalComponent } from './components/edit-game-modal/edit-game-modal.component';
 import { DiscussionItemComponent } from './components/discussion-item/discussion-item.component';
 import { GuideItemComponent } from './components/guide-item/guide-item.component';
-import { VALIDATION_MESSAGES } from './constants/validation.errors';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +18,7 @@ import { VALIDATION_MESSAGES } from './constants/validation.errors';
     DiscussionItemComponent,
     GuideItemComponent,
   ],
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   exports: [
     GameItemComponent,
     TitlebarComponent,
@@ -26,6 +26,7 @@ import { VALIDATION_MESSAGES } from './constants/validation.errors';
     EditGameModalComponent,
     DiscussionItemComponent,
     GuideItemComponent,
+    FormsModule,
   ],
 })
 export class SharedModule {}
