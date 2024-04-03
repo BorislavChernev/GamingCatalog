@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Discussion } from 'src/app/interfaces/discussion.interface';
 import { VALIDATION_MESSAGES } from 'src/app/shared/constants/validation.errors';
+import { Message } from 'src/app/interfaces/message.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -96,23 +97,16 @@ export class DiscussionService {
       );
   }
 
-  // editDiscussionById(
-  //   DiscussionId: string,
-  //   updatedDiscussionData: Partial<Discussion>
-  // ): Promise<void> {
-  //   return this.firestore
-  //     .collection<Discussion>('Discussions')
-  //     .doc(DiscussionId)
-  //     .update(updatedDiscussionData)
-  //     .catch((error) => {
-  //       console.error(
-  //         VALIDATION_MESSAGES.DISCUSSION.EDIT_BY_ID_ERROR.replace(
-  //           '%s',
-  //           DiscussionId
-  //         ),
-  //         error
-  //       );
-  //       throw new Error(VALIDATION_MESSAGES.DISCUSSION.EDIT_BY_ID_ERROR);
-  //     });
-  // }
+  sendMessage(discussionId: string, messageContent: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.baseUrl}/api/discussions/${discussionId}/messages`,
+      { content: messageContent }
+    );
+  }
+
+  loadMessages(discussionId: string): Observable<Message[]> {
+    return this.http.get<Message[]>(
+      `${this.baseUrl}/api/discussions/${discussionId}/messages`
+    );
+  }
 }

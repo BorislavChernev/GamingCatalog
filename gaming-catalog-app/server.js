@@ -1,6 +1,11 @@
 const express = require('express');
 const { MongoClient, ObjectId } = require('mongodb');
 
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const config = require('./src/environments/env.js');
+const jwtSecret = config.jwtSecret;
+
 const app = express();
 const cors = require('cors');
 
@@ -11,6 +16,9 @@ const port = 3000;
 const url = 'mongodb://127.0.0.1:27017';
 const dbName = 'GamingCatalogDB';
 process.setMaxListeners(0);
+
+
+// Now you can use config.jwtSecret where you need the JWT secret
 
 // Connect to the MongoDB database when the server starts
 async function connectDatabase() {
@@ -214,6 +222,24 @@ app.get('/discussions', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
+let messages = [];
+
+app.post('/api/discussions/:id/messages', (req, res) => {
+    const { id } = req.params;
+    const { content, senderId, timestamp } = req.body;
+
+    // Validate request body
+    if (!content || !senderId || !timestamp) {
+        return res.status(400).json({ error: 'Missing required fields in request body.' });
+    }
+
+    // Add message to messages array
+    messages.push({ discussionId: id, content, senderId, timestamp });
+
+    // Respond with success message
+    res.status(201).json({ message: 'Message sent successfully.' });
+});
 //  -------------------DISCUSSION------------------------
 
 //  -------------------GUIDES------------------------
@@ -330,7 +356,120 @@ app.get('/api/reviews/game/:id', async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+//  -------------------REVIEWS------------------------
+//  -------------------AUTHENTICATION------------------------
+app.post('/api/register', async (req, res) => {
+    const { username, password, role } = req.body;
+    if (!(username && password && role)) {
+        return res.status(400).send({ message: 'Username, password, and role are required' });
+    }
 
+    const db = await connectDatabase();
+    const usersCollection = db.collection('users');
+
+    // Check if user already exists
+    const userExists = await usersCollection.findOne({ username });
+    if (userExists) {
+        return res.status(409).send({ message: 'User already exists' });
+    }
+
+    // Hash password
+    const hashedPassword = bcrypt.hashSync(password, 10);
+
+    // Insert new user
+    await usersCollection.insertOne({
+        username,
+        password: hashedPassword,
+        role
+    });
+
+    res.status(201).send({ message: 'User registered successfully' });
+});
+
+app.post('/api/login', async (req, res) => {
+    const { username, password } = req.body;
+    if (!(username && password)) {
+        return res.status(400).send({ message: 'Username and password are required' });
+    }
+
+    try {
+        const db = await connectDatabase();
+        const usersCollection = db.collection('users');
+        const user = await usersCollection.findOne({ username });
+
+        if (!user) {
+            return res.status(401).send({ message: 'Login failed' });
+        }
+
+        const passwordIsValid = bcrypt.compareSync(password, user.password);
+        if (!passwordIsValid) {
+            return res.status(401).send({ message: 'Login failed' });
+        }
+
+        const token = jwt.sign({ userId: user._id, username: user.username, role: user.role }, jwtSecret, { expiresIn: '1h' });
+
+        res.json({ message: 'Logged in successfully', token });
+    } catch (error) {
+        console.error('Error during login:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+});
+
+// app.post('/api/login', async (req, res) => {
+//     const { username, password } = req.body;
+//     if (!(username && password)) {
+//         return res.status(400).send({ message: 'Username and password are required' });
+//     }
+
+//     const db = await connectDatabase();
+//     const usersCollection = db.collection('users');
+
+//     // Find user by username
+//     const user = await usersCollection.findOne({ username });
+//     if (!user || !bcrypt.compareSync(password, user.password)) {
+//         return res.status(401).send({ message: 'Invalid credentials' });
+//     }
+
+//     // Generate token
+//     const token = jwt.sign({ userId: user._id, username: user.username, role: user.role }, jwtSecret, { expiresIn: '1h' });
+
+//     res.json({ message: 'Logged in successfully', token });
+// });
+
+app.post('/api/register', async (req, res) => {
+    console.log('madafaka');
+    const { username, password, role = 'user' } = req.body;
+    if (!(username && password)) {
+        return res.status(400).send({ message: 'Username and password are required' });
+    }
+
+    try {
+        const db = await connectDatabase();
+        const usersCollection = db.collection('users');
+
+        // Check if the user already exists
+        const userExists = await usersCollection.findOne({ username });
+        if (userExists) {
+            return res.status(409).send({ message: 'User already exists' });
+        }
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Insert the new user into the database
+        await usersCollection.insertOne({
+            username,
+            password: hashedPassword,
+            role
+        });
+
+        res.status(201).send({ message: 'User registered successfully' });
+    } catch (error) {
+        console.error('Error registering user:', error);
+        res.status(500).send({ message: 'Internal Server Error' });
+    }
+});
+//  -------------------AUTHENTICATION------------------------
 // app.post('/Review/Game/:id/Create', async (req, res) => {
 //     try {
 //         const gameId = req.params.id;

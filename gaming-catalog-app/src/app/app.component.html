@@ -58,8 +58,13 @@
         <span class="mx-4 font-medium">Settings</span>
       </a>
 
-      <!-- <partial name="_LoginPartial" /> -->
-
+      <div *ngIf="!isLoggedIn">
+        <a [routerLink]="['/Login']">Login</a>
+        <a [routerLink]="['/Register']">Register</a>
+      </div>
+      <div *ngIf="isLoggedIn">
+        <button (click)="logout()">Logout</button>
+      </div>
     </nav>
   </aside>
 

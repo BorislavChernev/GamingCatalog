@@ -13,6 +13,9 @@ import { ReviewAllComponent } from './core/review/review-all/review-all.componen
 import { GuideCreateComponent } from './core/guide/guide-create/guide-create.component';
 import { DiscussionCreateComponent } from './core/discussion/discussion-create/discussion-create.component';
 import { DiscussionDetailsComponent } from './core/discussion/discussion-details/discussion-details.component';
+import { AuthGuard } from './services/auth.guard';
+import { LoginComponent } from './features/login/login.component';
+import { RegisterComponent } from './features/register/register.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -38,6 +41,8 @@ const routes: Routes = [
   { path: 'Guide/Details/:id', component: GuideDetailsComponent },
   { path: 'Guide/Delete/:id', component: GuideAllComponent },
   { path: 'Guide/Create', component: GuideCreateComponent },
+  { path: 'Register', component: RegisterComponent },
+  { path: 'Login', component: LoginComponent },
 ];
 
 @NgModule({
